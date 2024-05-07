@@ -1,17 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CryptoJS from 'crypto-js';
-
-const key = CryptoJS.enc.Utf8.parse('12345678900987654321');
-const iv = CryptoJS.enc.Utf8.parse('12345678900987654321');
-
-const payload =  {
-  "method": "GET",
-  "headers": {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-  },
-  "url": "http://test-cms-service"
-}
+import { iv, key, payload } from './contant';
 
 const App = () => {
   const ecrypted  = (data) => {
@@ -35,8 +24,6 @@ const App = () => {
 
     return CryptoJS.enc.Utf8.stringify(decryptedData);
   }
-
-  // 'EnAES-CBC with HMAC Encryption and Decryption'
 
   return (
     <div>
