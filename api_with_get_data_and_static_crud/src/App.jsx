@@ -37,6 +37,7 @@ function App() {
           <td>id</td>
           <td>title</td>
           <td>Edit</td>
+          <td>Delete</td>
         </tr>
       </thead>
       <tbody>
@@ -49,6 +50,9 @@ function App() {
               <td>
                 <button onClick={() => setEditData({...editData, id: item.id, editFlag: true})}>Edit</button>
               </td>
+              <td>
+                <button onClick={() => setAllData(allData.filter((list) => list.id !== item.id))}>delete</button>
+              </td>
             </tr>
             : 
             <tr key={item.id}>
@@ -56,6 +60,9 @@ function App() {
               <td><input type="text" value={item.title} onChange={(event) => handleChange(event, item.id)} /></td>
               <td>
                 <button onClick={handleUpdate}>Update</button>
+              </td>
+              <td>
+                <button onClick={() => setAllData(allData.filter((list) => list.id !== item.id))}>delete</button>
               </td>
             </tr>
           );
