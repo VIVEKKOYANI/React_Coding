@@ -10,11 +10,14 @@ import ReactFlow, {
 } from "reactflow";
 import Sidebar from "./Sidebar";
 import NodePopover from "./NodePopover";
+import TextUpdaterNode from "./TextUpdaterNode"; 
 import "reactflow/dist/style.css";
 import "./App.css";
 
 const initialNodes = [];
 const initialEdges = [];
+
+const nodeTypes = { textUpdater: TextUpdaterNode };
 
 const App = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -43,12 +46,10 @@ const App = () => {
       });
       const type = event.dataTransfer.getData("application/reactflow");
 
-      const position = reactFlowBounds;
-
       const newNode = {
         id: `${new Date().getTime()}`,
-        type: "default",
-        position,
+        type: "textUpdater",
+        position: reactFlowBounds,
         data: { label: `${type.charAt(0).toUpperCase() + type.slice(1)} Node` },
         style: {
           background:
@@ -58,7 +59,14 @@ const App = () => {
               ? "orange"
               : "green",
           width: 150,
-          height: 50,
+          height: 100,
+          alignContent: 'center',
+          color: 'white',
+          clipPath: type === "rectangle"
+          ? ""
+          : type === "conditional"
+          ? "polygon(48% 12%, 100% 50%, 48% 79%, 0% 50%)"
+          : "polygon(25% 0%, 100% 0%, 75% 100%, 0 100%)",
         },
       };
 
@@ -78,6 +86,7 @@ const App = () => {
   };
 
   const updateNode = (updatedNode) => {
+    console.log("updatedNode", updatedNode);
     const newUpdateNode = {
       id: updatedNode.id,
       type: updatedNode.type,
@@ -108,6 +117,12 @@ const App = () => {
     setSelectedNode(null);
   };
 
+  const handleClick = () => {
+    if (selectedNode) {
+      setSelectedNode(null);
+    }
+  }
+
   return (
     <div className="dndflow">
       <ReactFlowProvider>
@@ -118,10 +133,13 @@ const App = () => {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
-          onInit={onLoad}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          onInit={onLoad}
           onNodeDoubleClick={onNodeDoubleClick}
+          onClick={handleClick}
+          nodeTypes={nodeTypes}
+          // fitView
         >
           <Background />
           <Controls />

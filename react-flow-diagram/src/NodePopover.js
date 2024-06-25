@@ -5,6 +5,7 @@ const NodePopover = ({ node, onSubmit }) => {
   const [color, setColor] = useState(node.style.background);
   const [height, setHeight] = useState(node.style.height);
   const [width, setWidth] = useState(node.style.width);
+  console.log("node", node, color);
 
   const handleSubmit = () => {
     onSubmit({
@@ -15,7 +16,9 @@ const NodePopover = ({ node, onSubmit }) => {
   };
 
   return (
-    <div className="popover">
+    <div className="form-popup">
+      <div className="form-container">
+
       <div>
         <label>Name:</label>
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -32,7 +35,8 @@ const NodePopover = ({ node, onSubmit }) => {
         <label>Width:</label>
         <input type="text" value={width} onChange={(e) => setWidth(e.target.value)} />
       </div>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit} class="btn">Submit</button>
+      </div>
     </div>
   );
 };
